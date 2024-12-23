@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-12-23 Mon 16:11 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Valnet documentation</title>
+<meta name="author" content="Valerie Peach" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Valnet documentation</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgee565e5">1. Preface</a></li>
+<li><a href="#org1050122">2. Namespaces</a>
+<ul>
+<li><a href="#org5875dbd">2.1. s.ev</a>
+<ul>
+<li><a href="#org7752c89">2.1.1. (sub event-key user-key function)</a></li>
+<li><a href="#org0fba296">2.1.2. (pub! event-key value)</a></li>
+<li><a href="#org681c152">2.1.3. (send! player packet)</a></li>
+</ul>
+</li>
+<li><a href="#org276c158">2.2. s.pk</a></li>
+<li><a href="#org2622f4c">2.3. s.cnk</a>
+<ul>
+<li><a href="#org9b1b9a9">2.3.1. (set-blck chunk local-x y local-z block-id)</a></li>
+<li><a href="#org6cd20ab">2.3.2. (clr-chnks)</a></li>
+</ul>
+</li>
+<li><a href="#org81f1682">2.4. u.atm</a>
+<ul>
+<li><a href="#org3b8b51a">2.4.1. (swp! atomic-val update-function)</a></li>
+<li><a href="#org4dd41e1">2.4.2. (rst! atomic-val new-value)</a></li>
+</ul>
+</li>
+<li><a href="#org2a7236c">2.5. s.info</a>
+<ul>
+<li><a href="#org5ce895b">2.5.1. name</a></li>
+<li><a href="#org6c5cf9f">2.5.2. owner</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org8f70106">3. FAQ</a>
+<ul>
+<li><a href="#org98f8a9e">3.1. Is this something I should use</a></li>
+<li><a href="#org50f88f8">3.2. What is valnet</a></li>
+<li><a href="#orgda494fd">3.3. Where is x language feature</a></li>
+<li><a href="#org2c800f9">3.4. I think I found a vulnerability, what do I do?</a></li>
+<li><a href="#orge991b93">3.5. External plan?</a></li>
+<li><a href="#orga789178">3.6. This sucks</a></li>
+<li><a href="#org03ba4f8">3.7. Why the name valnet</a></li>
+<li><a href="#orgfd4470a">3.8. Benifits over any other platform</a></li>
+<li><a href="#org14c0b37">3.9. How do i print</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgee565e5" class="outline-2">
+<h2 id="orgee565e5"><span class="section-number-2">1.</span> Preface</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Valnet uses sci(clojure-like) as its scripting language, but an optional, more imperative language will likely be added at a later date.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1050122" class="outline-2">
+<h2 id="org1050122"><span class="section-number-2">2.</span> Namespaces</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org5875dbd" class="outline-3">
+<h3 id="org5875dbd"><span class="section-number-3">2.1.</span> s.ev</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+s.ev (server.events) is where all the events come from, currently you can subscribe to events using sub, publish an event using pub!, and send packets using send!
+</p>
+</div>
+
+<div id="outline-container-org7752c89" class="outline-4">
+<h4 id="org7752c89"><span class="section-number-4">2.1.1.</span> (sub event-key user-key function)</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+subscribes to the event bus, taking the event key, and a second key to ensure that during reevaluation of code, unwanted duplication of events doesnt happen 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0fba296" class="outline-4">
+<h4 id="org0fba296"><span class="section-number-4">2.1.2.</span> (pub! event-key value)</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+publishes value to the event key 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org681c152" class="outline-4">
+<h4 id="org681c152"><span class="section-number-4">2.1.3.</span> (send! player packet)</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+sends packet to player
+</p>
+
+<p>
+The list of events available is defined as follows:
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure">(def allowed-events {:player-move :p-mv
+                     :player-spawn :p-spwn
+                     :chunk-generate :chnk-gen})
+
+(def allowed-packet-events {:player-action :pk-ac
+                            :player-input :pk-inp
+                            :disconnect :dc
+                            :set-player-on-ground :pk-grnd?
+                            :swing-arm :pk-swing})
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org276c158" class="outline-3">
+<h3 id="org276c158"><span class="section-number-3">2.2.</span> s.pk</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+list of allowed packets that one can send to the client, defined internally as
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure">(def allowed-packets {'title #(play/-&gt;Set-Title-Text (raw-text %))
+                      'subtitle #(play/-&gt;Set-Subtitle-Text (raw-text %))
+                      'tp #(play/-&gt;Synchronize-Player-Position % %2 %3 %4 %5 0 0)
+                      'ack-block #(play/-&gt;Acknowledge-Block-Change %)
+                      'set-dest-stage #(play/-&gt;Set-Block-Destroy-Stage % %2 %3)
+                      'block-update #(play/-&gt;Block-Update % %2)
+                      'clr-title #(play/-&gt;Clear-Titles %)
+                      'chat-msg #(play/-&gt;Disguised-Chag-Message (raw-text %) 0 nil)
+                      'set-wb-center #(play/-&gt;Set-Border-Center % %2)
+                      'set-wb-lerp #(play/-&gt;Set-Border-Center % %2 %3)
+                      'set-wb-size #(play/-&gt;Set-Border-Lerp-Size %)
+                      'set-wb-warn-dly #(play/-&gt;Set-Border-Warning-Delay %)
+                      'set-wb-warn-dist #(play/-&gt;Set-Border-Warning-Distance %)
+                      'set-rndr-dist #(play/-&gt;Set-Render-Distance %)
+                      'set-exp #(play/-&gt;Set-Experience % %2 %3)
+                      'set-health #(play/-&gt;Set-Experience % %2 %3)
+                      })
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2622f4c" class="outline-3">
+<h3 id="org2622f4c"><span class="section-number-3">2.3.</span> s.cnk</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+worldgen and chunk related functions
+</p>
+</div>
+
+<div id="outline-container-org9b1b9a9" class="outline-4">
+<h4 id="org9b1b9a9"><span class="section-number-4">2.3.1.</span> (set-blck chunk local-x y local-z block-id)</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+only to be used during world generation events
+</p>
+</div>
+</div>
+<div id="outline-container-org6cd20ab" class="outline-4">
+<h4 id="org6cd20ab"><span class="section-number-4">2.3.2.</span> (clr-chnks)</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+resets the world to ungenerated chunks
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgf3839d5"></a>note: does not send updated chunks to existing players<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org81f1682" class="outline-3">
+<h3 id="org81f1682"><span class="section-number-3">2.4.</span> u.atm</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+mutability, because regular atomics are banished
+</p>
+</div>
+<div id="outline-container-org3b8b51a" class="outline-4">
+<h4 id="org3b8b51a"><span class="section-number-4">2.4.1.</span> (swp! atomic-val update-function)</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+runs update function on atomic-val, returning and setting the new value
+</p>
+</div>
+</div>
+<div id="outline-container-org4dd41e1" class="outline-4">
+<h4 id="org4dd41e1"><span class="section-number-4">2.4.2.</span> (rst! atomic-val new-value)</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+resets atomic-val to new value, ignoring the old value
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2a7236c" class="outline-3">
+<h3 id="org2a7236c"><span class="section-number-3">2.5.</span> s.info</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-org5ce895b" class="outline-4">
+<h4 id="org5ce895b"><span class="section-number-4">2.5.1.</span> name</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<p>
+the server name
+</p>
+</div>
+</div>
+<div id="outline-container-org6c5cf9f" class="outline-4">
+<h4 id="org6c5cf9f"><span class="section-number-4">2.5.2.</span> owner</h4>
+<div class="outline-text-4" id="text-2-5-2">
+<p>
+the owner of the server
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8f70106" class="outline-2">
+<h2 id="org8f70106"><span class="section-number-2">3.</span> FAQ</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org98f8a9e" class="outline-3">
+<h3 id="org98f8a9e"><span class="section-number-3">3.1.</span> Is this something I should use</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Probably not if your asking your self that question
+</p>
+</div>
+</div>
+<div id="outline-container-org50f88f8" class="outline-3">
+<h3 id="org50f88f8"><span class="section-number-3">3.2.</span> What is valnet</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Valnet is a small version of minehut, designed for small minigames and demos.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgda494fd" class="outline-3">
+<h3 id="orgda494fd"><span class="section-number-3">3.3.</span> Where is x language feature</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+There is a good chance i either havent implemented it, or its not planned, but shoot me a dm on discord and I can tell you if its planned, and a possible alternative
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2c800f9" class="outline-3">
+<h3 id="org2c800f9"><span class="section-number-3">3.4.</span> I think I found a vulnerability, what do I do?</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+First off, please dm me on discord before bragging to all your freinds and spreading it around.  I will not punish anybody who finds a vulnerability.
+Anyways, seriously though, if you can get through the security, do it, and let me know.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge991b93" class="outline-3">
+<h3 id="orge991b93"><span class="section-number-3">3.5.</span> External plan?</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+possibly, but probably wont be a thing for a looong time
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga789178" class="outline-3">
+<h3 id="orga789178"><span class="section-number-3">3.6.</span> This sucks</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+I know
+</p>
+</div>
+</div>
+
+<div id="outline-container-org03ba4f8" class="outline-3">
+<h3 id="org03ba4f8"><span class="section-number-3">3.7.</span> Why the name valnet</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+See also: valknet
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfd4470a" class="outline-3">
+<h3 id="orgfd4470a"><span class="section-number-3">3.8.</span> Benifits over any other platform</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+Currently, there is very little reason to prefer valnet over free minehut plans, but as more gets added, who knows, there might be something that we can do.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org14c0b37" class="outline-3">
+<h3 id="org14c0b37"><span class="section-number-3">3.9.</span> How do i print</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+You dont, still working on it
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Valerie Peach</p>
+<p class="date">Created: 2024-12-23 Mon 16:11</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
